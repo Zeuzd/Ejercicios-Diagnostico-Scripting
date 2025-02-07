@@ -111,3 +111,6 @@ class Program
 }
 ```
 
+# Abstract y Virtual
+
+No se que son los metodos virtuales y abstractos, en POO no me enseñaron nada.
