@@ -113,4 +113,71 @@ class Program
 
 # Abstract y Virtual
 
-No se que son los metodos virtuales y abstractos, en POO no me enseñaron nada.
+``` c#
+using System;
+
+public abstract class AbstractSample
+{
+    private string message;
+
+    protected void SetMessage(string msg) { message = msg; }
+    protected string GetMessage() { return message; }
+
+    public abstract void PrintMessage(string input);
+
+    public virtual void InvertMessage(string input)
+    {
+        char[] arr = input.ToCharArray();
+        Array.Reverse(arr);
+        SetMessage(new string(arr));
+    }
+}
+
+public class NormalSample : AbstractSample
+{
+    public override void PrintMessage(string input)
+    {
+        InvertMessage(input);
+        Console.WriteLine(GetMessage());
+    }
+}
+
+public class InvertedCaseSample : AbstractSample
+{
+    public override void InvertMessage(string input)
+    {
+        base.InvertMessage(input);
+        string original = GetMessage();
+        char[] swapped = new char[original.Length];
+        for (int i = 0; i < original.Length; i++)
+        {
+            char c = original[i];
+            if (char.IsUpper(c))
+                swapped[i] = char.ToLower(c);
+            else if (char.IsLower(c))
+                swapped[i] = char.ToUpper(c);
+            else
+                swapped[i] = c;
+        }
+        SetMessage(new string(swapped));
+    }
+
+    public override void PrintMessage(string input)
+    {
+        InvertMessage(input);
+        Console.WriteLine(GetMessage());
+    }
+}
+
+public class MessageManager
+{
+    public static void Main()
+    {
+        AbstractSample sample1 = new NormalSample();
+        AbstractSample sample2 = new InvertedCaseSample();
+
+        sample1.PrintMessage("HelloWorld");
+        sample2.PrintMessage("HelloWorld");
+    }
+}
+```
